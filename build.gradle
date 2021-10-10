@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'info.solidsoft.pitest' version '1.6.0'
+}
+
+
+group 'game.g84'
+version '1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'org.mockito:mockito-core:3.7.7'
+    testImplementation 'net.jqwik:jqwik:1.5.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation group: 'com.googlecode.lanterna', name: 'lanterna', version: '3.1.1'
+}
+
+application {
+    mainClass.set('superMario.Game')
+}
+
+test {
+    maxHeapSize = "2024m"
+    useJUnitPlatform {
+        includeEngines ('junit-jupiter', 'jqwik')
+    }
+}
+
+pitest {
+    junit5PluginVersion = '0.12'
+    excludedMethods = ['min','max', 'sort']
+    targetClasses = [
+            'superMario.model.*'
+    ]
+}
